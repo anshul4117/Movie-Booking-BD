@@ -20,10 +20,9 @@ const getAllMovies = async (req, res) => {
         } else {
             console.log('Cache miss: Fetching movies from DB');
             const movies = await Movie.find(); // Fetch movies from the database
-            console.log(movies);
 
             // Cache the movies data for 1 hour
-            await redis.setEx(cacheKey, 3600, JSON.stringify(movies)); // Cache for 1 hour
+            await redis.setEx(cacheKey, 60, JSON.stringify(movies)); // Cache for 1 hour
             return res.status(200).json(movies); // Return the movies from DB
         }
     } catch (err) {
